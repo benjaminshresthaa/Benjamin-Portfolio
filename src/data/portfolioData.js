@@ -4,7 +4,7 @@ export const personalInfo = {
   location: "Nepal (Available Worldwide)",
   headline: "Most videos get watched.\nFew get remembered.\nFewer still make someone buy.\n\nSpecializing in the gap between those three.",
   about: [
-    "Views are cheap. Attention is expensive. Conversions are rare. I edit for all three—blending seamless cuts, eye-catching motion design, and pacing engineered around a single metric: watch time."
+    "Views are cheap. Attention is expensive. Conversions are rare. I edit for all three, blending seamless cuts, eye-catching motion design, and pacing engineered around a single metric: watch time."
   ],
   image: "/about-image.png",
   avatar: "/about-image.png",
