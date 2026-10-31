@@ -85,7 +85,7 @@ export default function Work() {
   const categories = ['All', 'Long Form', 'Short Form', 'Motion Graphics', 'Posters'];
 
   const filteredProjects = projects.filter((project) => {
-    if (activeTab === 'All') return true;
+    if (activeTab === 'All') return project.category !== 'Posters';
     return project.category === activeTab;
   });
 
