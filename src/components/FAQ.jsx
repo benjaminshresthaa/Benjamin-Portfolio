@@ -4,10 +4,10 @@ import { faqs } from '../data/portfolioData';
 import { ChevronDown } from 'lucide-react';
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(null);
 
   const toggle = (idx) => {
-    setOpenIndex(openIndex === idx ? -1 : idx);
+    setOpenIndex(openIndex === idx ? null : idx);
   };
 
   return (
