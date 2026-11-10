@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, CheckCircle2 } from 'lucide-react';
+import { Send, Mail, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { InstagramIcon, WhatsAppIcon } from './Icons';
 import { personalInfo } from '../data/portfolioData';
 
@@ -8,19 +9,62 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'Short Form Content',
+    phone: '',
+    service: 'Short-form Video',
     message: '',
   });
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Optional phone validation to keep clean numbers
+    if (name === 'phone') {
+      const onlyNumbers = value.replace(/\D/g, '');
+      if (onlyNumbers.length > 15) return;
+      setFormData((prev) => ({ ...prev, [name]: onlyNumbers }));
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Project Inquiry: ${formData.projectType} from ${formData.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`
-    );
-    window.open(`mailto:${personalInfo.email}?subject=${subject}&body=${body}`, '_blank');
-    setSubmitted(true);
+    setLoading(true);
+    setErrorMessage('');
+
+    try {
+      await emailjs.send(
+        'email_benjamin',
+        'template_71xujco',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          from_phone: formData.phone || 'Not provided',
+          selected_service: formData.service,
+          message: formData.message,
+        },
+        'cdvWKcl1e0oNF47F_'
+      );
+      setSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: 'Short-form Video',
+        message: '',
+      });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setErrorMessage(
+        'Failed to send message via EmailJS. Please reach out directly via WhatsApp or Email below.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,12 +100,9 @@ export default function Contact() {
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <CheckCircle2 size={32} />
               </div>
-              <h3 className="text-xl font-bold text-foreground">Message Ready to Send!</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Your email client has been opened. If it didn't open automatically, send a direct email to{' '}
-                <a href={`mailto:${personalInfo.email}`} className="text-accent underline font-medium">
-                  {personalInfo.email}
-                </a>.
+              <h3 className="text-xl font-bold text-foreground">Message Sent Successfully!</h3>
+              <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
+                Thank you for reaching out! Your message has been delivered directly to Benjamin's inbox. You will receive a response shortly.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
@@ -71,7 +112,14 @@ export default function Contact() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              {errorMessage && (
+                <div className="flex items-center gap-2 rounded-lg bg-red-50 p-3.5 text-xs text-red-700 border border-red-200">
+                  <AlertCircle size={16} className="shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <div>
                 <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-foreground">
                   Name
@@ -79,11 +127,12 @@ export default function Contact() {
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={handleChange}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
-                  placeholder="Your name"
+                  placeholder="Your Name"
                 />
               </div>
 
@@ -94,29 +143,45 @@ export default function Contact() {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={handleChange}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                   placeholder="you@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="projectType" className="mb-1.5 block text-sm font-medium text-foreground">
-                  Project Type
+                <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-foreground">
+                  WhatsApp / Phone Number <span className="text-xs font-normal text-muted-foreground">(Optional)</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                  placeholder="e.g. 9869009104"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="service" className="mb-1.5 block text-sm font-medium text-foreground">
+                  Select Service
                 </label>
                 <select
-                  id="projectType"
-                  value={formData.projectType}
-                  onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                  id="service"
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                 >
-                  <option value="Short Form Content (TikTok/Reels/Shorts)">Short Form Content (TikTok / Reels / Shorts)</option>
-                  <option value="YouTube Long Form Video">YouTube Long Form Video</option>
-                  <option value="Motion Graphics & Product Demo">Motion Graphics & Product Demo</option>
-                  <option value="Talking Head / Course Video">Talking Head / Course Video</option>
-                  <option value="Monthly Retainer Channel Editing">Monthly Retainer Channel Editing</option>
+                  <option value="Short-form Video">Short-form Video (Reels / TikTok / Shorts)</option>
+                  <option value="Long-form Video">Long-form Video (YouTube / Documentary)</option>
+                  <option value="Motion Graphics & Dynamic Visuals">Motion Graphics & Dynamic Visuals</option>
+                  <option value="Graphics Design">Graphics Design & Posters</option>
                 </select>
               </div>
 
@@ -126,24 +191,35 @@ export default function Contact() {
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   required
-                  rows={5}
+                  rows={4}
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={handleChange}
                   className="w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
-                  placeholder="Tell me about your project, timeline, and reference links..."
+                  placeholder="Tell me about your project, timeline, and goals..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark shadow-sm hover:shadow"
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark shadow-sm hover:shadow disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                <span>Send Message</span>
-                <Send size={16} />
+                {loading ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <Send size={16} />
+                  </>
+                )}
               </button>
 
-              {/* Modern Minimalist Direct Connect Bar (Replaces bulky cards with sleek inline pills) */}
+              {/* Modern Minimalist Direct Connect Bar */}
               <div className="mt-4 pt-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
                 <span className="font-medium text-foreground/70">Or reach out directly:</span>
                 <div className="flex flex-wrap items-center justify-center gap-2">
