@@ -6,7 +6,7 @@ import VideoModal from './VideoModal';
 
 function ProjectCard({ project, onClick }) {
   const isPoster = project.type === 'image' || project.category === 'Posters';
-  const thumbnail = project.thumbnail || project.imageUrl || '/Poster1.png';
+  const thumbnail = project.thumbnail || project.imageUrl || './Poster1.png';
 
   return (
     <button

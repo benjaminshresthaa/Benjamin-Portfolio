@@ -13,7 +13,7 @@ export default function Footer() {
         
         {/* Left: Copyright */}
         <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="h-5 w-5 object-contain" />
+          <img src="./logo.png" alt="Logo" className="h-5 w-5 object-contain" />
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
           </p>
