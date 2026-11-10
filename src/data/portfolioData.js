@@ -4,9 +4,7 @@ export const personalInfo = {
   location: "Nepal (Available Worldwide)",
   headline: "Most videos get watched.\nFew get remembered.\nFewer still make someone buy.\n\nSpecializing in the gap between those three.",
   about: [
-    "Over the past year, I’ve developed my skills as a video editor by working on a variety of projects and learning what makes content truly engaging. For me, editing is far more than just arranging clips—it's about architecting a smooth, immersive experience that holds attention from the very first second to the final frame.",
-    "I focus on producing high-retention videos with clean cuts, balanced pacing, and eye-catching motion design. Whether it's viral short-form content for TikTok & Reels, promotional campaigns for SaaS companies, or high-value YouTube long-form videos, I deliver edits that communicate your message with clarity and authority.",
-    "Every project is an opportunity to push creative boundaries. I work seamlessly with custom motion graphics, sound design, color grading, and storytelling frameworks engineered to increase watch time, boost conversions, and build devoted audiences."
+    "Views are cheap. Attention is expensive. Conversions are rare. I edit for all three—blending seamless cuts, eye-catching motion design, and pacing engineered around a single metric: watch time."
   ],
   image: "/about-image.png",
   avatar: "/about-image.png",

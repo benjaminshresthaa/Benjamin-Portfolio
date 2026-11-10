@@ -31,7 +31,7 @@ export default function About() {
           </h2>
           <div className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground space-y-4">
             {personalInfo.about.map((para, idx) => (
-              <p key={idx} className="text-left sm:text-center text-base sm:text-lg">
+              <p key={idx} className="text-center text-base sm:text-lg leading-relaxed">
                 {para}
               </p>
             ))}
