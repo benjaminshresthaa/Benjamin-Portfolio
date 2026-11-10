@@ -31,6 +31,14 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleMailtoFallback = () => {
+    const subject = encodeURIComponent(`Project Inquiry: ${formData.service} from ${formData.name}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'Not provided'}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
+    );
+    window.open(`mailto:${personalInfo.email}?subject=${subject}&body=${body}`, '_blank');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -59,9 +67,16 @@ export default function Contact() {
       });
     } catch (error) {
       console.error('EmailJS Error:', error);
-      setErrorMessage(
-        'Failed to send message via EmailJS. Please reach out directly via WhatsApp or Email below.'
-      );
+      const errText = error?.text || error?.message || '';
+      if (errText.includes('Invalid grant') || errText.includes('reconnect')) {
+        setErrorMessage(
+          'Email service authorization expired. Please click below to send via your email client or WhatsApp.'
+        );
+      } else {
+        setErrorMessage(
+          'Failed to send message via EmailJS. Please send directly via email client or WhatsApp below.'
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -114,9 +129,30 @@ export default function Contact() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {errorMessage && (
-                <div className="flex items-center gap-2 rounded-lg bg-red-50 p-3.5 text-xs text-red-700 border border-red-200">
-                  <AlertCircle size={16} className="shrink-0" />
-                  <span>{errorMessage}</span>
+                <div className="flex flex-col gap-2 rounded-lg bg-red-50 p-4 text-xs text-red-700 border border-red-200">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{errorMessage}</span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleMailtoFallback}
+                      className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:bg-accent-dark transition-colors shadow-2xs"
+                    >
+                      <Mail size={13} />
+                      <span>Open Pre-filled Email</span>
+                    </button>
+                    <a
+                      href={personalInfo.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 transition-colors shadow-2xs"
+                    >
+                      <WhatsAppIcon size={13} />
+                      <span>Send via WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
               )}
 
