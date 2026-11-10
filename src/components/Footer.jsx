@@ -12,10 +12,9 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 sm:flex-row sm:justify-between">
         
         {/* Left: Copyright */}
-        <div className="flex items-center gap-2">
-          <img src="./logo.png" alt="Logo" className="h-5 w-5 object-contain" />
+        <div>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
+            © 2027 {personalInfo.name}. All rights reserved.
           </p>
         </div>
 
