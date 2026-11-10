@@ -1,6 +1,6 @@
-# Benjamin Shrestha — Video Editor & Motion Designer Portfolio
+# Benjamin Shrestha — Freelance Video Editor Portfolio
 
-A modern, high-performance portfolio website for **Benjamin Shrestha**, inspired by the clean, minimalist aesthetic of [Prateek Singh's portfolio](https://piratekkusan.github.io/prateek-portfolio/).
+A modern, high-performance portfolio website for **Benjamin Shrestha**, showcasing high-retention video editing, motion design, and storytelling for creators and brands.
 
 Built with **React 19**, **Vite**, **Tailwind CSS**, **Framer Motion**, and **Lucide Icons**.
 

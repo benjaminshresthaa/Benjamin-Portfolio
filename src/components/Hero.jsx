@@ -7,7 +7,7 @@ export default function Hero() {
     <section className="flex min-h-screen flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center gap-12 md:flex-row md:gap-20">
         
-        {/* Left: Profile Photo (Exact Prateek Singh styling) */}
+        {/* Left: Profile Photo */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}

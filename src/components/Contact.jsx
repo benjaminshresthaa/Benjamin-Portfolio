@@ -86,7 +86,7 @@ export default function Contact() {
     <section id="contact" className="bg-muted px-6 py-24 scroll-mt-12">
       <div className="mx-auto max-w-xl">
         
-        {/* Section Header (Exact Prateek Singh styling) */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

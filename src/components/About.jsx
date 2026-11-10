@@ -38,7 +38,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Skills & Tools (Exact Prateek Singh styling) */}
+        {/* Skills & Tools */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
