@@ -10,7 +10,7 @@ export default function Contact() {
     name: '',
     email: '',
     phone: '',
-    service: 'Short-form Video',
+    service: '',
     message: '',
   });
   const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ export default function Contact() {
         name: '',
         email: '',
         phone: '',
-        service: 'Short-form Video',
+        service: '',
         message: '',
       });
     } catch (error) {
@@ -199,7 +199,7 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
-                  placeholder="e.g. 9869009104"
+                  placeholder="Your phone or WhatsApp number"
                 />
               </div>
 
@@ -210,10 +210,12 @@ export default function Contact() {
                 <select
                   id="service"
                   name="service"
+                  required
                   value={formData.service}
                   onChange={handleChange}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                 >
+                  <option value="" disabled>Select a service...</option>
                   <option value="Short-form Video">Short-form Video (Reels / TikTok / Shorts)</option>
                   <option value="Long-form Video">Long-form Video (YouTube / Documentary)</option>
                   <option value="Motion Graphics & Dynamic Visuals">Motion Graphics & Dynamic Visuals</option>
